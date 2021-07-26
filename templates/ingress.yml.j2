@@ -1,0 +1,38 @@
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: "{{ ingress_name }}"
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    cert-manager.io/cluster-issuer: "{{ cert_issuer }}"
+spec:
+  rules:
+    - host: "auth.{{ domain }}"
+      http:
+        paths:
+          - backend:
+              serviceName: auth
+              servicePort: 80
+            path: "{{ auth_path }}"
+    - host: "admin.{{ domain }}"
+      http:
+        paths:
+          - backend:
+              serviceName: admin
+              servicePort: 80
+            path: /
+    - host: "*.account.{{ domain }}"
+      http:
+        paths:
+          - backend:
+              serviceName: account
+              servicePort: 80
+            path: /
+  tls:
+    - hosts:
+        - "{{ domain }}"
+      secretName: "{{ domain }}"
+    - hosts:
+        - "*.account.{{ domain }}"
+      secretName: "{{ domain }}"

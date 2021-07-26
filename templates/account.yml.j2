@@ -1,0 +1,57 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: account
+  labels:
+    app: account
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+  selector:
+    app: account
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: account
+  labels:
+    app: account
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: account
+  minReadySeconds: 10
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: account
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: account
+          image: "{{ account_image}}"
+          env:
+            - name: DEPLOY_NAME
+              value: "{{ account_time }}"
+            - name: REACT_APP_AUTH_BASE
+              value: "{{ account_auth_base }}"
+          ports:
+            - name: http
+              containerPort: 80
+          resources:
+            limits:
+              cpu: "1000m"
+              memory: "1Gi"
+            requests:
+              cpu: "10m"
+              memory: "32Mi"

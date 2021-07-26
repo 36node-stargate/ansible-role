@@ -1,0 +1,57 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: admin
+  labels:
+    app: admin
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+  selector:
+    app: admin
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: admin
+  labels:
+    app: admin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: admin
+  minReadySeconds: 5
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: admin
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: admin
+          image: "{{ admin_image }}"
+          env:
+            - name: DEPLOY_NAME
+              value: "{{ admin_time }}"
+            - name: APP_AUTH_BASE
+              value: "{{ admin_auth_base }}"
+          ports:
+            - name: http
+              containerPort: 80
+          resources:
+            limits:
+              cpu: "1000m"
+              memory: "1Gi"
+            requests:
+              cpu: "10m"
+              memory: "32Mi"

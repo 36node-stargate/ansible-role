@@ -1,0 +1,65 @@
+#jinja2: lstrip_blocks: "True", trim_blocks: "True"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth
+  labels:
+    app: auth
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+  selector:
+    app: auth
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth
+  labels:
+    app: auth
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth
+  minReadySeconds: 10
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: auth
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: auth
+          image: "[% auth_image %]"
+          env:
+            - name: DEPLOY_NAME
+              value: "[% auth_time %]"
+            - name: PORT
+              value: "[% auth_port %]"
+            - name: BASE
+              value: "[% auth_base %]"
+            - name: MONGODB_CONNECTION
+              value: "[% auth_mongo_connection %]"
+            - name: SCOPE_EMAILTPL_INVITE
+              value: |
+                [% auth_email_invitetpl | safe %]
+          ports:
+            - name: http
+              containerPort: 80
+          resources:
+            limits:
+              cpu: "1000m"
+              memory: "1Gi"
+            requests:
+              cpu: "10m"
+              memory: "32Mi"

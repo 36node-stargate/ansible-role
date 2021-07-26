@@ -1,0 +1,28 @@
+---
+# tasks file for stargate
+- name: Namespace for stargate
+  community.kubernetes.k8s:
+    state: "{{ stargate_state }}"
+    name: "{{ stargate_namespace }}"
+    api_version: v1
+    kind: Namespace
+
+- name: stargate service
+  community.kubernetes.k8s:
+    state: "{{ stargate_state }}"
+    namespace: "{{ stargate_namespace }}"
+    template: "{{ item }}"
+  with_items:
+    - admin.yml.j2
+    - account.yml.j2
+    - ingress.yml.j2
+  tags:
+    - stargate
+
+- name: stargate auth service
+  community.kubernetes.k8s:
+    state: "{{ stargate_state }}"
+    namespace: "{{ stargate_namespace }}"
+    definition: "{{ lookup('template', 'auth.yml.j2', variable_start_string='[%', variable_end_string='%]') }}"
+  tags:
+    - stargate
