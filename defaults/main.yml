@@ -10,7 +10,6 @@ mongodb_connection: mongodb://root:it_is_a_secret@mongodb
 
 domain: stargate.36node.com
 ingress_name: "{{ namespace }}"
-auth_path: /v1
 
 account_time: 20210726100000
 admin_time: 20210726100000
@@ -18,16 +17,23 @@ auth_time: 20210726100000
 
 account_version: latest
 account_image: "registry.cn-beijing.aliyuncs.com/36node/stargate-account:{{ account_version }}"
-account_auth_base: https://auth.stargate.36node.com/v1
+account_auth_path: https://api.stargate.36node.com/auth/v1
+account_path: account
+account_url_path: account.stargate.36node.com
 
 admin_version: latest
-admin_image: "registry.cn-beijing.aliyuncs.com/36node/stargate-account:{{ admin_version }}"
-admin_auth_base: https://auth.stargate.36node.com/v1
+admin_image: "registry.cn-beijing.aliyuncs.com/36node/stargate-admin:{{ admin_version }}"
+admin_auth_path: https://api.stargate.36node.com/auth/v1
+admin_path: admin
+admin_auth_url: https://stargate.account.stargate.36node.com/auth
+admin_auth_login_url: https://stargate.account.stargate.36node.com/login
+admin_app_id: 5f7093e8dee795001179b13c
 
 auth_version: latest
 auth_image: "registry.cn-beijing.aliyuncs.com/36node/stargate-auth:[% auth_version %]"
 auth_port: "80"
-auth_base: /v1
+auth_path: /auth/v1
 auth_mongo_connection: "[% mongodb_connection %]/auth?authSource=admin"
 auth_email_invitetpl: |
   <div style="padding: 35px;"><table cellpadding="0" align="center" style="width: 600px; margin: 0px auto; text-align: left; position: relative; border-top-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; border-bottom-left-radius: 5px; font-size: 14px; font-family:微软雅黑, 黑体; line-height: 1.5; box-shadow: rgb(153, 153, 153) 0px 0px 5px; border-collapse: collapse; background-position: initial initial; background-repeat: initial initial;background:#fff;"><tbody><tr><th valign="middle" style="height: 25px; line-height: 25px; padding: 15px 35px; border-bottom-color: rgba(18, 24, 37, 0.87); background-color: #484f60; border-bottom-color: #C46200; background-color: #484f60; border-top-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 0px; border-bottom-left-radius: 0px;"><font face="微软雅黑" size="5" style="color: rgb(255, 255, 255); ">{{name}} </font></th></tr><tr><td><div style="padding:25px 35px 40px; background-color:#fff;"><h2 style="margin: 5px 0px; "><font color="#333333" style="line-height: 20px; "><font style="line-height: 22px; " size="4">亲爱的用户：{{email}}</font></font></h2><p>您收到{{name}}的邀请邮件</p><p>点击链接完成注册</p><p><a href="https://hall.adv-uat.36node.com/join?invitation={{code}}" target="_blank">https://hall.adv-uat.36node.com/join?invitation={{code}}</a>  </p><p align="right">{{name}} 官方团队</p><p align="right">{{time}}</p></div></td></tr></tbody></table></div>
+auth_admin_url: https://admin.stargate.36node.com

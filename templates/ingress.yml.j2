@@ -8,21 +8,21 @@ metadata:
     cert-manager.io/cluster-issuer: "{{ cert_issuer }}"
 spec:
   rules:
-    - host: "auth.{{ domain }}"
+    - host: "api.{{ domain }}"
       http:
         paths:
           - backend:
               serviceName: auth
               servicePort: 80
             path: "{{ auth_path }}"
-    - host: "admin.{{ domain }}"
+    - host: "{{ admin_path }}.{{ domain }}"
       http:
         paths:
           - backend:
               serviceName: admin
               servicePort: 80
             path: /
-    - host: "*.account.{{ domain }}"
+    - host: "*.{{ account_path }}.{{ domain }}"
       http:
         paths:
           - backend:
@@ -32,7 +32,9 @@ spec:
   tls:
     - hosts:
         - "{{ domain }}"
+        - "*.{{ domain }}"
       secretName: "{{ domain }}"
     - hosts:
-        - "*.account.{{ domain }}"
-      secretName: "{{ domain }}"
+        - "{{ account_path }}.{{ domain }}"
+        - "*.{{ account_path }}.{{ domain }}"
+      secretName: "{{ account_path }}.{{ domain }}"

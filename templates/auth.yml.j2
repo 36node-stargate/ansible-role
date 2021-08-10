@@ -47,7 +47,9 @@ spec:
             - name: PORT
               value: "[% auth_port %]"
             - name: BASE
-              value: "[% auth_base %]"
+              value: "[% auth_path %]"
+            - name: SCOPE_ADMIN_URL
+              value: "[% auth_admin_url %]"
             - name: MONGODB_CONNECTION
               value: "[% auth_mongo_connection %]"
             - name: SCOPE_EMAILTPL_INVITE

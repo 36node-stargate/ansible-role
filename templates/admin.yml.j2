@@ -43,8 +43,14 @@ spec:
           env:
             - name: DEPLOY_NAME
               value: "{{ admin_time }}"
-            - name: APP_AUTH_BASE
-              value: "{{ admin_auth_base }}"
+            - name: REACT_APP_AUTH_BASE
+              value: "{{ admin_auth_path }}"
+            - name: REACT_APP_AUTH_URL
+              value: "{{ admin_auth_url }}"
+            - name: REACT_APP_AUTH_LOGIN_URL
+              value: "{{ admin_auth_login_url }}"
+            - name: REACT_APP_APP_ID
+              value: "{{ admin_app_id }}"
           ports:
             - name: http
               containerPort: 80

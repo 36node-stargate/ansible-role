@@ -44,7 +44,9 @@ spec:
             - name: DEPLOY_NAME
               value: "{{ account_time }}"
             - name: REACT_APP_AUTH_BASE
-              value: "{{ account_auth_base }}"
+              value: "{{ account_auth_path }}"
+            - name: REACT_APP_URL_BASE
+              value: "{{ account_url_path }}"
           ports:
             - name: http
               containerPort: 80
