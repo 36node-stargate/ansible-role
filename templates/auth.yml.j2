@@ -42,7 +42,7 @@ spec:
         - name: auth
           image: "[% auth_image %]"
           env:
-            - name: DEPLOY_NAME
+            - name: DEPLOY_TIME
               value: "[% auth_time %]"
             - name: PORT
               value: "[% auth_port %]"

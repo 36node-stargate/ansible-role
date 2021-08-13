@@ -41,7 +41,7 @@ spec:
         - name: account
           image: "{{ account_image}}"
           env:
-            - name: DEPLOY_NAME
+            - name: DEPLOY_TIME
               value: "{{ account_time }}"
             - name: REACT_APP_AUTH_BASE
               value: "{{ account_auth_path }}"
