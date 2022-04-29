@@ -1,5 +1,5 @@
+#jinja2: lstrip_blocks: "True", trim_blocks: "True"
 ---
-# tasks file for stargate
 - name: Namespace for stargate
   community.kubernetes.k8s:
     state: "{{ stargate_state }}"

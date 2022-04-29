@@ -1,38 +1,48 @@
-Role Name
-=========
+# stargate-role
 
-A brief description of the role goes here.
+stargate 部署套件
 
-Requirements
-------------
+## Requirements
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+- python3
+- ansible2
 
-Role Variables
---------------
+## Role Variables
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+- state: 部署状态
 
-Dependencies
-------------
+## Dependencies
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+## Example Playbook
 
-Example Playbook
-----------------
+```yaml
+  - role: 36node.project.stargate
+    tags:
+      - stargate
+    vars:
+      state: present
+      domain: "stargate.casc.cc"
+      account_version: 1.4.0
+      admin_version: 1.4.0
+      # auth_version: 1.21.0
+      auth_version: casc
+      auth_path: /auth/v1
+      auth_admin_url: "http://{{ admin_path }}.{{ domain }}"
+      account_path: account
+      account_auth_path: "http://api.{{ domain }}{{ auth_path }}"
+      account_url_path: "{{ account_path }}.{{ domain }}"
+      admin_path: admin
+      admin_auth_path: "http://api.{{ domain }}{{ auth_path }}"
+      admin_auth_url: "http://stargate.{{ account_path }}.{{ domain }}/auth"
+      admin_auth_login_url: "http://stargate.{{ account_path }}.{{ domain }}/login"
+      admin_app_id: 5f86d013e0de9b00116c2e05
+```
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+## Develop guide
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+Link to local installed role for convenience.
 
-License
--------
-
-BSD
-
-Author Information
-------------------
-
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+```sh
+rm -rf /Users/zzs/.ansible/roles/36node.project.stargate
+ln -s $PWD /Users/zzs/.ansible/roles/36node.project.stargate
+```

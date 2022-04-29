@@ -1,3 +1,4 @@
+#jinja2: lstrip_blocks: "True", trim_blocks: "True"
 ---
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
@@ -5,7 +6,9 @@ metadata:
   name: "{{ ingress_name }}"
   annotations:
     kubernetes.io/ingress.class: traefik
+{% if tls_enabled %}
     cert-manager.io/cluster-issuer: "{{ cert_issuer }}"
+{% endif %}
 spec:
   rules:
     - host: "api.{{ domain }}"
@@ -29,6 +32,7 @@ spec:
               serviceName: account
               servicePort: 80
             path: /
+{% if tls_enabled %}
   tls:
     - hosts:
         - "{{ domain }}"
@@ -38,3 +42,4 @@ spec:
         - "{{ account_path }}.{{ domain }}"
         - "*.{{ account_path }}.{{ domain }}"
       secretName: "{{ account_path }}.{{ domain }}"
+{% endif %}
