@@ -43,6 +43,6 @@ stargate 部署套件
 Link to local installed role for convenience.
 
 ```sh
-rm -rf /Users/zzs/.ansible/roles/36node.project.stargate
-ln -s $PWD /Users/zzs/.ansible/roles/36node.project.stargate
+rm -rf ~/.ansible/roles/36node.project.stargate
+ln -s $PWD ~/.ansible/roles/36node.project.stargate
 ```
